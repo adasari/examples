@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+      <bean id = "grid" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="peerClassLoadingEnabled" value="false" />
+        <property name="metricsLogFrequency" value="0" />
+    	<property name="discoverySpi">
+	      <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+	        <property name="ipFinder">
+	          <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+	            <property name="addresses">
+	              <list>
+	                <value>127.0.0.1</value>
+	              </list>
+	            </property>
+	          </bean>
+	        </property>
+	      </bean>
+	    </property>
+	       <property name="cacheConfiguration">
+    		<list>	
+			    <bean class="org.apache.ignite.configuration.CacheConfiguration">
+			        <property name="name" value="TEST_CACHE"/>
+			        <property name="cacheMode" value="PARTITIONED"/>
+			        <property name="queryParallelism" value="2"/>			        
+					<property name="atomicityMode" value="TRANSACTIONAL"/>
+			        <property name="backups" value="0"/>                
+			        <property name="swapEnabled" value="false"/>
+			        <property name="copyOnRead" value="false"/>
+					<property name="memoryMode" value="OFFHEAP_TIERED"/>		 
+					<property name="offHeapMaxMemory" value="#{1 * 1024L * 1024L * 1024L}"/>
+					<property name="indexedTypes">
+					  <list>
+						<value>java.lang.String</value>
+						<value>com.test.cache.entity.Test</value>
+					  </list>
+					</property>
+				</bean>
+				
+			</list>
+		</property>
+	    
+	  </bean>
+</beans>
